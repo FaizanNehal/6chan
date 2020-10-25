@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="./../font/css/all.css" rel="stylesheet">
+    <script src="./../files/vue.js"></script>
+    <script src="./../files/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+    <style>
+      *{
+        margin:0;color:#273849;font-family: Source Sans Pro;
+      }
+      .head{
+        height:55px;background-color:#42b983;
+
+      }
+      .inside_head{
+        width:80%;margin:0px auto;font-size: 20px;font-weight: 600;color:#fff;
+        letter-spacing: 2px;line-height: 55px;
+      }
+      .inside_head ul li{
+        float:right;list-style:none;padding:0px 10px;color:#fff;
+      }
+      .inside_head span{
+        font-size: 20px;font-weight: 600;letter-spacing: 2px;color: #fff;
+        font-size: 20px;
+      }
+
+      .inside_head ul li a{
+        text-decoration:none;color:#fff;
+      }
+
+      .inside_head i{
+        font-size: 18px;color:#fff;
+      }
+      .lefty{
+        float:left;
+      }
+      span{
+        font-weight: 600;letter-spacing: 2px;
+      }
+      span a{
+        text-decoration: none;color:#fff;
+      }
+
+
+
+
+      .second_sec{
+        height: 100px;
+      }
+
+
+      .third_sec_head{
+        width:65%;margin: 0px auto;text-transform: uppercase;color: #273849;
+        font-size: 51px;font-weight: 300;text-align: center;font-style: normal;
+      }
+
+
+      .flex_sec{
+        width: 70%;margin: 0px auto;height: 200px;
+        display: flex;text-align: center;font-weight: 400;
+      }
+      .flex_sec span{
+        font-size: 20px;font-weight: 600;letter-spacing: 2px;color: #42b983;
+      }
+      .flex_first{
+        display: inline-block;width:33%;padding: 0px 30px;
+      }
+      .flex_second{
+        display: inline-block;width:33%;padding: 0px 30px;
+      }
+      .flex_third{
+        display: inline-block;width:33%;padding: 0px 30px;
+      }
+
+
+      .input_sec{
+        padding: 25px;color: #fff;
+      }
+      .input_sec_main{
+        font-size: 30px;width: 70%;margin:0px auto;
+      }
+      .placeholder20{
+        height: 20px;
+      }
+      .input_sec input{
+        height: 35px;margin: 5px;width:800px;font-size: 20px;font-family: Source Sans Pro;
+        border-radius: 10px;border-style: none;border:2px solid #42b983;
+      }
+      .input_sec textarea{
+        height: 35px;margin: 5px;font-size:16px;font-family: Source Sans Pro;
+        border-radius: 10px;border-style: none;border:2px solid #42b983;
+        resize: none;width: 800px;height: 150px;
+      }
+      .input_sec_main2{
+        width:80%;text-align: right;
+      }
+      .input_sec_main2 a{
+        text-decoration: none;color: #fff
+      }
+      .input_sec_main2 i{
+        color:#fff;
+      }
+      .input_sec_main2 button{
+        padding:10px 20px;background-color: #42b983;border-style: none;
+        font-size: 16px;letter-spacing: 1px;
+      }
+
+      .Modal{
+        position: fixed;
+        left: 0;top: 0;
+        width: 100%;height: 100%;
+        z-index: 1;
+        background: rgba(0,0,0,0.4);
+      }
+      .modalMessage{
+        width: 500px;height: 300px;
+      background-color: #f4f4f4;
+      position: absolute;
+        top:50%;left: 50%;
+        margin-left: -250px;
+        margin-top: -150px;
+        box-shadow: 0 5px 8px 0 ;
+        border-radius: 5%;
+      }
+      .modalshow{
+        position: absolute;height: 40%;width: 100%;font-weight: 800;
+        text-align: center;padding: 55px 0;font-size: 28px;
+        color: #BF0603;
+      }
+      .modalbtn{
+        position: absolute;height: 20%;width: 100%;bottom: 0;
+        text-align: center;
+      }
+      .modalbtnclick{
+        cursor: pointer;border-radius: 5%;background-color: #BF0603;
+        color: #F6F1D1;font-weight: 800;padding:10px 15px;font-size:20px;
+        transition: 0.1s ease;
+      }
+      .modalbtnclick:hover{
+        padding: 10px 30px;font-size: 22px;transition: 0.3s ease;
+      }
+
+
+      .foot{
+        height:50px;background-color: #42b983;color:#fff;text-align: center;
+        padding: 20px;letter-spacing: 2px;position:relative;
+      }
+      .foot_bot{
+        position: absolute;bottom: 0;text-align: center;width: 100%;
+        text-decoration: none;margin-bottom: 20px;
+      }
+      .foot_bot a{
+        text-decoration: none;
+
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="Modal" v-if="showModal">
+        <div class="modalMessage">
+          <div class="modalshow">
+            {{modalMessage}}
+          </div>
+          <div class="modalbtn">
+            <button class="modalbtnclick" v-on:click="showModal=!showModal"> Okay</button>
+          </div>
+        </div>
+      </div>
+    <div class="head">
+      <div class="inside_head">
+        <span class="lefty"><a href="#">6Chan</a></span>
+        <ul>
+          <li><a href="#" v-on:click='loggingout()'>Log Out <i class="fas fa-sign-out-alt"></i></a></li>
+          <li><a href="./userprofile.html"><i class=" far fa-user"></i> Profile</a></li>
+          <li><a href="./search.html"><i class="fas fa-search"></i> Search</a></li>
+          <li><a href="#"><i class="fas fa-plus"></i> Create</a></li>
+        </ul>
+      </div>
+    </div>                                                                                     <!-- HEAD ENDS HERE  -->
+
+    <div class="second_sec">
+      <div class="second_sec_butn">
+      </div>
+    </div>
+
+    <div class="third_sec">
+      <div class="third_sec_head">
+        <p>make your own discussion and talk about anything</p>
+      </div>
+    </div>
+    <div class="placeholder20"></div>
+    <div class="placeholder20"></div>
+    <div class="placeholder20"></div>
+    <div class="flex_sec">
+      <div class="flex_first">
+        <span>Create</span>
+        <div class="placeholder20"></div>
+        <p>You can create your own discussions which you can if you want to.
+        If you can't find yout topic then we definitely recommend you to do it.</p>
+
+      </div>
+      <div class="flex_second">
+        <span>Discuss</span>
+        <div class="placeholder20"></div>
+        <p>Discuss everything from work to sports to gaming. Feel free to express
+          your idea and appreciate others.</p>
+
+      </div>
+      <div class="flex_third">
+        <span>Manage</span>
+        <div class="placeholder20"></div>
+        <p>Create your own discussion and manage what type of topics should be
+          talked about and how people should behave.</p>
+
+      </div>
+
+    </div>
+
+    <div class="input_sec">
+      <div class="input_sec_main">
+        <form class="" action="index.html" method="post">
+
+
+        <span>Name of Discussion: </span><br>
+        <input type="text" v-model='name'>
+        <br>
+        <div class="placeholder20"></div>
+        <span>Category: </span><br>
+        <input type="text" v-model='category'>
+        <br>
+        <div class="placeholder20"></div>
+        <span>Description: </span><br>
+
+        <textarea name="name" v-model='description'></textarea>
+        <div class="placeholder20"></div>
+        <div class="placeholder20"></div>
+
+        </form>
+        <div class="input_sec_main2">
+          <button type="button" name="button" v-on:click="checking()"><a href="#"><i class="fas fa-plus"></i> Create Discussion</a></button>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="foot">
+      <p>This site was creted by Faizan Nehal, Ammara Riaz and Hamza Shahid</p>
+      <div class="foot_bot">
+        <a href="#">Terms & conditions</a> | <a href="#">Team</a> | <a href="#">
+        Policy</a> | <a href="#">Contact Us</a>
+
+      </div>             <!--THIS IS FOOTER ONLY-->
+    </div>
+  </div>
+
+<script type="text/javascript">
+
+var vm=new Vue({
+  el:'#app',
+  data:{
+    name:"",
+    category:"",
+    description:"",
+    showModal:false,
+    modalMessage:''
+  },
+  methods:{
+    checking:function(){
+      if (this.name==""||this.category==""||this.description=="") {
+        console.log("EMPTY")
+        return
+
+      }
+      this.request()
+
+    },
+    request:function(){
+      self=this,
+      $.ajax({
+        url:'./../backend/creatediscussion.php',
+        method:'POST',
+        data:{
+          discName:self.name,
+          discCat:self.category,
+          discDesp:self.description
+        }
+      })
+      .done(function(data){
+        if (JSON.parse(data).reply) {
+          self.modalMessage=JSON.parse(data).res;
+          self.showModal=!self.showModal
+          self.name=""
+          self.category=""
+          self.description=""
+        }
+        else {
+          if (JSON.parse(data).login) {
+            alert(JSON.parse(data).res)
+            window.location.href='./Login.html'
+          }
+          self.modalMessage=JSON.parse(data).res;
+          self.showModal=!self.showModal
+        }
+
+      })
+      .fail(function(data){
+        self.modalMessage=data.statusText;
+        self.showModal=!self.showModal
+
+      })
+      .always(function(data){
+        console.log("SENT")
+      })
+    },
+    loggingout:function(){
+      $.ajax({
+        url:'./../backend/logout.php',
+        data:{
+        }
+      })
+      .always(function(data){
+        console.log("DONE")
+      })
+      .done(function(data){
+        window.location.href='./Login.html'
+      })
+      .fail(function(data){
+        console.log("FAIL")
+      })
+    }
+
+  }
+})
+
+</script>
+  </body>
+</html>

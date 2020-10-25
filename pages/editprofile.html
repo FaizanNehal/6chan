@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="./../font/css/all.css" rel="stylesheet">
+    <script src="./../files/vue.js"></script>
+    <script src="./../files/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+
+    <style media="screen">
+      *{
+        margin:0;color:#273849;font-family: Source Sans Pro;
+      }
+      .head{
+        height:55px;background-color:#42b983;
+
+      }
+      .inside_head{
+        width:80%;margin:0px auto;font-size: 20px;font-weight: 600;color:#fff;
+        letter-spacing: 2px;line-height: 55px;
+      }
+      .inside_head ul li{
+        float:right;list-style:none;padding:0px 10px;color:#fff;
+      }
+
+      .inside_head ul li a{
+        text-decoration:none;color:#fff;
+      }
+
+      .inside_head i{
+        font-size: 18px;color:#fff;
+      }
+      .lefty{
+        float:left;
+      }
+      .inside_head span{
+        font-size: 20px;font-weight: 600;letter-spacing: 2px;
+      }
+      span a{
+        text-decoration: none;color:#fff;
+      }
+
+
+      .second_sec{
+        height: 100px;
+      }
+
+
+
+      .head_sec{
+        width:80%;margin: 0px auto;padding: 10px;border-bottom: 2px solid #273849;
+        margin-bottom: 25px;
+      }
+
+      .editing_area{
+        width: 80%;margin:0px auto;padding: 10px;
+        color: #42b983;font-size: 20px;font-weight: 600;
+      }
+      .placeholder{
+        height: 20px;
+      }
+      .editing_area input{
+        font-size: 18px;height: 25px;
+      }
+      .editing_area select{
+        font-size: 18px;height: 25px;
+      }
+      .editing_area option{
+        font-size: 18px;height: 25px;
+      }
+      .editing_area button{
+        margin-right: 25px;padding: 15px;text-align: center;border-style: none;
+        background-color: #42b983;color: #fff;font-weight: 600;
+        font-size: 16px;cursor: pointer;transition: all 0.4s ease 0s;
+      }
+      .editing_area button:hover{
+        letter-spacing: 2px;
+        transition: all 0.4s ease 0s;
+      }
+      .change_password{
+        padding: 25px 40px;transition: all 0.4s ease 0s;
+      }
+      .Modal{
+        position: fixed;
+        left: 0;top: 0;
+        width: 100%;height: 100%;
+        z-index: 1;
+        background: rgba(0,0,0,0.4);
+      }
+      .modalMessage{
+        width: 500px;height: 300px;
+      background-color: #f4f4f4;
+      position: absolute;
+        top:50%;left: 50%;
+        margin-left: -250px;
+        margin-top: -150px;
+        box-shadow: 0 5px 8px 0 ;
+        border-radius: 5%;
+      }
+      .modalshow{
+        position: absolute;height: 40%;width: 100%;font-weight: 800;
+        text-align: center;padding: 55px 0;font-size: 28px;
+        color: #BF0603;
+      }
+      .modalbtn{
+        position: absolute;height: 20%;width: 100%;bottom: 0;
+        text-align: center;
+      }
+      .modalbtnclick{
+        cursor: pointer;border-radius: 5%;background-color: #BF0603;
+        color: #F6F1D1;font-weight: 800;padding:10px 15px;font-size:20px;
+        transition: 0.1s ease;
+      }
+      .modalbtnclick:hover{
+        padding: 10px 30px;font-size: 22px;transition: 0.3s ease;
+      }
+
+
+
+      .foot{
+        height:50px;background-color: #42b983;color:#fff;text-align: center;
+        padding: 20px;letter-spacing: 2px;position:relative;
+      }
+      .foot_bot{
+        position: absolute;bottom: 0;text-align: center;width: 100%;
+        text-decoration: none;margin-bottom: 20px;
+      }
+      .foot_bot a{
+        text-decoration: none;
+
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="Modal" v-if="showModal">
+        <div class="modalMessage">
+          <div class="modalshow">
+            {{modalMessage}}
+          </div>
+          <div class="modalbtn">
+            <button class="modalbtnclick" v-on:click="showModal=!showModal"> Okay</button>
+          </div>
+        </div>
+      </div>
+    <div class="head">
+      <div class="inside_head">
+        <span class="lefty"><a href="#">6Chan</a></span>
+        <ul>
+          <li><a href="#" v-on:click='loggingout()'>Log Out <i class="fas fa-sign-out-alt"></i></a></li>
+          <li><a href="./userprofile.html"><i class=" far fa-user"></i> Profile</a></li>
+          <li><a href="./search.html"><i class="fas fa-search"></i> Search</a></li>
+          <li><a href="./create.html"><i class="fas fa-plus"></i> Create</a></li>
+        </ul>
+      </div>
+    </div>                                                                                     <!-- HEAD ENDS HERE  -->
+
+    <div class="second_sec">
+      <div class="second_sec_butn">
+      </div>
+    </div>
+
+    <div class="head_sec">
+      <h1>Edit Your Profile</h1>
+    </div>
+
+
+
+
+    <div class="editing_area">
+      <span>Upload Profile picture: </span>
+      <input type="file" name="upload_pic" v-on:change='changeProfile($event)'>
+      <div class="placeholder"></div>
+      <span>User Name:</span>
+      <input type="text" v-model='uname'>
+      <div class="placeholder"></div>
+      <span>First Name:</span>
+      <input type="text" v-model='fname'>
+      <div class="placeholder"></div>
+      <span>Last Name:</span>
+      <input type="text" v-model='lname'>
+      <div class="placeholder"></div>
+      <span>Email:</span>
+      <input type="text" v-model='email'>
+      <div class="placeholder"></div>
+      <span>Change Password:</span>
+      <button type="button" v-on:click='hideshowpasssword()'>Change Password</button>
+      <div class="change_password" v-if='password_block'>
+        <div class="placeholder"></div>
+        <span>Type Old Password:</span>
+        <input type="password" v-model="password">
+        <div class="placeholder"></div>
+        <span>Enter New Password:</span>
+        <input type="password" v-model="newPassword">
+        <div class="placeholder"></div>
+        <span>Re-enter New Password:</span>
+        <input type="password" v-model="RePassword">
+      </div>
+      <div class="placeholder"></div>
+      <span>City:</span>
+      <select>
+        <option>Karachi<option>
+          <option>Islamabad<option>
+            <option>Lahore<option>
+      </select>
+      <div class="placeholder"></div>
+      <span>Edit Date of Birth:</span>
+      <input type="date" name="" value="">
+      <div class="placeholder"></div>
+      <button type="button" v-on:click='cancelation()'>Cancel</button>
+      <button class="save_butn" v-on:click='saveTheEdit()'>Save Changes</button>
+
+    </div>
+    <div class="foot">
+      <p>This site was creted by Faizan Nehal, Ammara Riaz and Hamza Shahid</p>
+      <div class="foot_bot">
+        <a href="#">Terms & conditions</a> | <a href="#">Team</a> | <a href="#">
+        Policy</a> | <a href="#">Contact Us</a>
+
+      </div>             <!--THIS IS FOOTER ONLY-->
+    </div>
+    </div>
+
+
+    <script type="text/javascript">
+    var vm=new Vue({
+      el:'#app',
+      data:{
+        password_block:false,
+        uname:'',
+        defaultuname:'',
+        fname:'',
+        lname:'',
+        email:'',
+        defaultemail:'',
+        password:'',
+        newPassword:'',
+        RePassword:'',
+        dob:'',
+        picture:'',
+        pictureUpload:false,
+        changeUsername:false,
+        changeEmail:false,
+        showModal:false,
+        modalMessage:''
+      },
+      created:function(){
+        var self=this;
+        $.ajax({
+          url:'./../backend/editprofileopen.php',
+          data:[]
+        })
+        .always(function(){
+
+        })
+        .done(function(data){
+          console.log(JSON.parse(data).reply)
+          if (JSON.parse(data).reply) {
+            self.uname=JSON.parse(data).res.username
+            self.defaultuname=JSON.parse(data).res.username
+            self.fname=JSON.parse(data).res.user_fname
+            self.lname=JSON.parse(data).res.user_lname
+            self.email=JSON.parse(data).res.user_mail
+            self.defaultemail=JSON.parse(data).res.user_mail
+            self.dob=JSON.parse(data).res.user_birth
+          }
+          else {
+            if (JSON.parse(data).login) {
+              alert(JSON.parse(data).res)
+              window.location.href='./Login.html'
+            }
+            self.modalMessage=JSON.parse(data).res;
+            self.showModal=!self.showModal
+          }
+        })
+        .fail(function(data){
+          self.modalMessage=data.statusText;
+          self.showModal=!self.showModal
+
+        })
+      },
+      methods:{
+        hideshowpasssword:function(){
+          this.password_block=!this.password_block
+        },
+        cancelation:function(){
+          window.location.href='./userprofile.html'
+        },
+        changeProfile:function(event){
+          console.log(event)
+          this.picture=event.target.files[0]
+          this.pictureUpload=true
+          console.log(this.picture)
+          console.log(this.pictureUpload)
+        },
+        uploadPic:function(){
+          var fd=new FormData();
+          fd.append('image',this.picture)
+          fd.set('imageSet','set')
+          axios.post('./../backend/editprofilesave.php',fd,{
+            header:{
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then(function(response){
+            console.log(response)
+          })
+          .catch(function(){
+            console.log('FAILED AXIOS')
+          })
+        },
+        changePassword:function(){
+          if (this.password!=''&&this.RePassword!=''&&this.newPassword!='') {
+            if (this.newPassword!=this.RePassword) {
+              return
+            }
+            var self=this;
+            $.ajax({
+              url:'./../backend/editprofilesave.php',
+              method:'POST',
+              data:{
+                changePassword:true,
+                oldPassword:self.password,
+                newPassword:self.newPassword
+              }
+            })
+            .always(function(){
+              console.log('CHANGE PASSWORD FUNCTION EXECUTED')
+            })
+            .done(function(data){
+              if (JSON.parse(data).reply) {
+                self.modalMessage=JSON.parse(data).res;
+                self.showModal=!self.showModal
+              }
+              else {
+                if (JSON.parse(data).login) {
+                  alert(JSON.parse(data).res)
+                  window.location.href='./Login.html'
+                }
+                self.modalMessage=JSON.parse(data).res;
+                self.showModal=!self.showModal
+              }
+            })
+            .fail(function(data){
+              self.modalMessage=data.statusText;
+              self.showModal=!self.showModal
+            })
+
+          }
+        },
+        saveTheEdit:function(){
+          if (this.pictureUpload==true) {
+            this.uploadPic()
+
+          }
+          this.changePassword()
+          if (this.defaultuname!=this.uname) {
+            this.changeUsername=true
+          }
+          if (this.defaultemail!=this.email) {
+            this.changeEmail=true
+          }
+          var self=this
+          $.ajax({
+            url:'./../backend/editprofilesave.php',
+            method:'POST',
+            data:{
+              firstName:self.fname,
+              lastName:self.lname,
+              userName:self.uname,
+              changeUsername:self.changeUsername,
+              email:self.email,
+              changeEmail:self.changeEmail
+            }
+          })
+          .always(function(data){
+            console.log("RESPONSE SENT");
+          })
+          .done(function(data){
+            if (JSON.parse(data).reply) {
+              self.modalMessage=JSON.parse(data).res;
+              self.showModal=!self.showModal
+            }
+            else {
+              if (JSON.parse(data).login) {
+                alert(JSON.parse(data).res)
+                window.location.href='./Login.html'
+              }
+              self.modalMessage=JSON.parse(data).res;
+              self.showModal=!self.showModal
+            }
+          })
+          .fail(function(){
+            self.modalMessage=data.statusText;
+            self.showModal=!self.showModal
+          })
+
+        },
+        loggingout:function(){
+          $.ajax({
+            url:'./../backend/logout.php',
+            data:{
+            }
+          })
+          .always(function(data){
+            console.log("DONE")
+          })
+          .done(function(data){
+            window.location.href='./Login.html'
+          })
+          .fail(function(data){
+            console.log("FAIL")
+          })
+        }
+      }
+    })
+
+    </script>
+  </body>
+</html>

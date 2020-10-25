@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="./../font/css/all.css" rel="stylesheet">
+    <script src="./../files/vue.js"></script>
+    <script src="./../files/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+
+    <style>
+      *{
+        margin:0;color:#273849;font-family: Source Sans Pro;
+      }
+      body{
+        background-color: #EEEEEE;
+      }
+      .head{
+        height:55px;background-color:#42b983;
+
+      }
+      .inside_head{
+        width:80%;margin:0px auto;font-size: 20px;font-weight: 600;color:#fff;
+        letter-spacing: 2px;line-height: 55px;
+      }
+      .inside_head ul li{
+        float:right;list-style:none;padding:0px 10px;color:#fff;
+      }
+
+      .inside_head ul li a{
+        text-decoration:none;color:#fff;
+      }
+
+      i{
+        font-size: 18px;color:#fff;
+      }
+      .lefty{
+        float:left;
+      }
+      span{
+        font-size: 20px;font-weight: 600;letter-spacing: 2px;
+      }
+      span a{
+        text-decoration: none;color:#fff;
+      }
+
+
+
+      .second_sec{
+        height: 100px;
+      }
+
+
+
+      .main_sec{
+        display:flex;
+      }
+
+
+
+      .side_profile{
+        width: 30%;color:#42b983;height:800px;display: inline-block;
+        margin-right: -4px;overflow: hidden;top:0;
+      }
+      .side_profile span{
+        color:#42b983
+      }
+      .side_profile a{
+        color:#42b983
+      }
+
+      .profile_content{
+        width: 70%;display: inline-block;
+        margin-right: -4px;overflow: hidden;
+      }
+      .profile_info{
+        width: 80%;border: 2px solid grey;margin:0px auto;margin-top: 20px;
+        border-radius: 10%;background-color: #fff;box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+        webkit-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+      }
+      .placeholder{
+        height: 10px;
+      }
+      .profile_img{
+        height: 280px;text-align: center;vertical-align: middle;
+
+      }
+      .profile_img_display{
+        border-radius: 50%;margin: 0px auto;width: 80%;border: 2px solid grey;
+        height:250px;position: relative;top:20px;
+        background-size: cover;
+
+      }
+      .profile_info_content{
+        text-align: center;padding: 10px;border-bottom: 2px solid grey;
+      }
+      .profile_info_detail{
+        padding: 10px;
+      }
+      .align_right{
+        float: right;
+      }
+      .profile_info_end{
+        text-align: center;padding: 10px;border-top:  4px solid grey;
+        transition: 0.3s ease;
+      }
+      .profile_info_end a:hover{
+       font-size: 110%;transition: 0.3s ease;
+      }
+
+
+
+      .profile_content_butn{
+        height:55px;border: 2px solid green;
+        font-size: 30px;background-color: #fff;
+
+      }
+      .profile_content_butn span{
+        height:55px;
+        font-size: 30px;
+      }
+      .profile_content_butn i{
+        font-size: 28px;color:#273849;
+      }
+      .profile_content_butn_1{
+        display: inline-block;height: 100%;color:#273849;
+        width: 50%;text-align: center;line-height: 55px;margin-right: -4px;
+      }
+
+      .profile_content_butn_1:hover{
+        background-color: #42b983;transition: all 0.5s ease 0s;
+
+      }
+      .profile_content_disc{
+
+      }
+
+
+
+
+
+      .foot{
+        height:50px;background-color: #42b983;color:#fff;text-align: center;
+        padding: 20px;letter-spacing: 2px;position:relative;
+      }
+      .foot_bot{
+        position: absolute;bottom: 0;text-align: center;width: 100%;
+        text-decoration: none;margin-bottom: 20px;
+      }
+      .foot_bot a{
+        text-decoration: none;
+
+      }
+
+
+
+
+
+      .temp_body{
+        border: 2px solid lightgrey;margin: 4px;margin-bottom: 10px;background-color: #fff;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+        webkit-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+      }
+      .temp_body:hover{
+        border: 2px solid #273849;background-color: #F7F7FF;transition: 0.3s ease;
+      }
+      .temp_body span{
+        font-size: 13px;color:#42b983
+      }
+      .temp_body p{
+        font-size: 18px;font-weight: 800;color:#273849
+      }
+      .temp_body a{
+        text-decoration: none;color:#273849
+      }
+      .temp_head{
+        padding:5px 10px;
+      }
+      .temp_main{
+        padding:0px 10px;
+      }
+      .temp_main p:hover{
+        text-decoration: underline;
+      }
+      .temp_end{padding: 5px 10px}
+
+
+      .Modal{
+        position: fixed;
+        left: 0;top: 0;
+        width: 100%;height: 100%;
+        z-index: 1;
+        background: rgba(0,0,0,0.4);
+      }
+      .modalMessage{
+        width: 500px;height: 300px;
+      background-color: #f4f4f4;
+      position: absolute;
+        top:50%;left: 50%;
+        margin-left: -250px;
+        margin-top: -150px;
+        box-shadow: 0 5px 8px 0 ;
+        border-radius: 5%;
+      }
+      .modalshow{
+        position: absolute;height: 40%;width: 100%;font-weight: 800;
+        text-align: center;padding: 55px 0;font-size: 28px;
+        color: #BF0603;
+      }
+      .modalbtn{
+        position: absolute;height: 20%;width: 100%;bottom: 0;
+        text-align: center;
+      }
+      .modalbtnclick{
+        cursor: pointer;border-radius: 5%;background-color: #BF0603;
+        color: #F6F1D1;font-weight: 800;padding:10px 15px;font-size:20px;
+        transition: 0.1s ease;
+      }
+      .modalbtnclick:hover{
+        padding: 10px 30px;font-size: 22px;transition: 0.3s ease;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="Modal" v-if="showModal">
+        <div class="modalMessage">
+          <div class="modalshow">
+            {{modalMessage}}
+          </div>
+          <div class="modalbtn">
+            <button class="modalbtnclick" v-on:click="showModal=!showModal"> Okay</button>
+          </div>
+        </div>
+      </div>
+
+
+    <div class="head">
+      <div class="inside_head">
+        <span class="lefty"><a href="#">6Chan</a></span>
+        <ul>
+          <li><a href="#" v-on:click='loggingout()'>Log Out <i class="fas fa-sign-out-alt"></i></a></li>
+          <li><a href="#"><i class=" far fa-user"></i> Profile</a></li>
+          <li><a href="./search.html"><i class="fas fa-search"></i> Search</a></li>
+          <li><a href="./create.html"><i class="fas fa-plus"></i> Create</a></li>
+        </ul>
+      </div>
+    </div>                                                                                     <!-- HEAD ENDS HERE  -->
+
+    <div class="second_sec">
+      <div class="second_sec_butn">
+
+      </div>
+    </div>
+
+    <div class="main_sec">
+    <div class="side_profile">
+      <div class="profile_info">
+        <div class="profile_img">
+          <div class="profile_img_display" v-bind:style="{'background-image':'url('+picture+')'}">
+          </div>
+        </div>
+
+        <div class="placeholder"></div>
+
+
+        <div class="profile_info_display">
+          <div class="profile_info_content">
+          <span>{{info.username}}</span>
+          <div class="placeholder"></div>
+
+          <div class="placeholder"></div>
+          </div>
+          <div class="profile_info_detail">
+            <div class="placeholder"></div>
+            <span>First Name: </span>
+            <span class="align_right">{{info.user_fname}}</span>
+            <br>
+              <div class="placeholder"></div>
+            <span>Last Name: </span>
+            <span class="align_right">{{info.user_lname}}</span>
+            <br>
+              <div class="placeholder"></div>
+            <span>Age: </span>
+            <span class="align_right"> {{getAge}}</span>
+            <br>
+              <div class="placeholder"></div>
+            <span>Gender: </span>
+            <span class="align_right"> {{info.user_gender}}</span>
+            <br>
+              <div class="placeholder"></div>
+            <span>Date of Birth: </span>
+            <span class="align_right">{{info.user_birth}}</span>
+            <div class="placeholder"></div>
+          </div>
+          <div class="placeholder"></div>
+          <br/>                                                                     <!-- PROFILE INFO DETAIL ENDS HERE-->
+          <div class="profile_info_end">
+            <span><a href="#" v-on:click=editInfo()>Edit Your Information</a></span>
+          </div>
+        </div>                                                                       <!-- PROFILE INFO DISPLAY ENDS HERE-->
+      </div>                                                                       <!-- PROFILE INFO ENDS HERE-->
+    </div>                                                                       <!-- SIDE PROFILE ENDS HERE-->
+    <div class="profile_content">
+      <div class="profile_content_butn">
+        <a href="#">
+          <div class="profile_content_butn_1" v-on:click="viewView()">
+            <span><i class="far fa-eye"></i> View Discussions</span>
+          </div>
+        </a>
+        <a href="#">
+          <div class="profile_content_butn_1" v-on:click="viewManage()">
+            <span><i class="fab fa-stack-exchange"></i> Manage Discussions</span>
+          </div>
+        </a>
+
+     </div>                                                                     <!-- PROFILE CONTENT TYPE DISPLAY BUTTONS ENDS HERE-->
+      <div class="profile_content_disc">
+
+        <tabb v-for='elem in forums'>
+          <span slot='category'>{{elem.disc_category}}</span>
+          <span slot=date>{{elem.disc_created_on}}</span>
+          <p slot='name' v-on:click='openDist(elem.disc_id)'>{{elem.disc_name}}</p>
+          <span slot='members'>{{elem.disc_comments}}</span>
+        </tabb>                                                            <!-- COMPONENETS FOR DISCUSSIONS LINKS STARTS HERE-->
+
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="foot">
+    <p>This site was creted by Faizan Nehal, Ammara Riaz and Hamza Shahid</p>
+    <div class="foot_bot">
+      <a href="#">Terms & conditions</a> | <a href="#">Team</a> | <a href="#">
+      Policy</a> | <a href="#">Contact Us</a>
+
+    </div>             <!--THIS IS FOOTER ONLY-->
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+<template id="disc_info">
+  <div >
+  <div class="temp_body">
+    <a href="#">
+      <div class="temp_head">
+      <span>Category: <slot name='category'></slot></span>
+      <span class="align_right">Created on: <slot name='date'></slot></span>
+    </div>
+    <div class="temp_main">
+      <slot name='name'></slot>
+    </div>
+    <div class="temp_end">
+      <span>Comments: <slot name='members'></slot></span>
+    </div>
+  </a>
+  </div>
+</div>
+
+</template>
+
+
+<script type="text/javascript">
+
+
+var profile_mixin={
+  data:{
+    info:[],
+    forums:[]
+  }
+}
+
+
+
+Vue.component('tabb',{
+  template:'#disc_info',
+
+  data:function(){
+    return {
+      yes:'dd',
+    }
+  },
+})
+
+
+
+
+
+var vm=new Vue({
+  el:'#app',
+  mixins:[profile_mixin],
+  data:{
+    hello:'yo',
+    picture:'./../assets/default.jpg',
+    temp:'',
+    showModal:false,
+    modalMessage:''
+
+
+  },
+  created:function(){
+    self=this;
+    $.ajax({
+      url:'./../backend/viewprofile.php',
+      data:{
+      }
+    })
+    .done(function(data){
+
+      if (JSON.parse(data).reply) {
+        self.info=JSON.parse(data).info
+        if (JSON.parse(data).joined) {
+          self.forums=JSON.parse(data).forum_list
+        }
+        console.log(JSON.parse(data).picture)
+        if (JSON.parse(data).picture) {
+          self.temp=JSON.parse(data).picture_address
+          self.picture='./../assets/profiles/'+self.info.user_id+'/'+self.temp
+          console.log(self.picture)
+        }
+      }
+      else {
+        if (JSON.parse(data).login) {
+          alert(JSON.parse(data).res)
+          window.location.href='./Login.html'
+        }
+        self.modalMessage=JSON.parse(data).res
+        self.showModal=!self.showModal
+      }
+    })
+    .always(function(data){
+
+    })
+    .fail(function(data){
+      self.modalMessage=data.statusText;
+      self.showModal=!self.showModal
+
+    })
+
+  },
+  computed:{
+    getAge:function(){
+      var date=new Date();
+      var year=date.getFullYear();
+      dob=this.info.user_birth
+      dob=dob.split('-')
+      age=year-dob[0]
+      month=date.getMonth()+1;
+      if (month<dob[1]) {
+        age=age-1
+      }
+      return age
+    }
+  },
+  methods:{
+    loggingout:function(){
+      $.ajax({
+        url:'./../backend/logout.php',
+        data:{
+        }
+      })
+      .always(function(data){
+        console.log("DONE")
+      })
+      .done(function(data){
+        window.location.href='./Login.html'
+      })
+      .fail(function(data){
+        console.log("FAIL")
+      })
+    },
+    openDist:function(distID){
+      window.location.href='./discussion.html?pageID='+distID
+    },
+    editInfo:function(){
+      window.location.href='./editprofile.html'
+    },
+    viewManage:function(){
+      this.forums=[]
+      self=this;
+      $.ajax({
+        url:'./../backend/viewmanagediscussion.php',
+        method:'POST',
+        data:{
+          manage:'manage'
+        }
+      })
+      .done(function(data){
+        if (JSON.parse(data).reply) {
+          if (JSON.parse(data).query) {
+            self.forums=JSON.parse(data).forums
+          }
+        }
+        else {
+          self.modalMessage=JSON.parse(data).res;
+          self.showModal=!self.showModal
+        }
+      })
+      .always(function(data){
+        console.log('DONE')
+      })
+      .fail(function(data){
+        self.modalMessage=data.statusText;
+        self.showModal=!self.showModal
+      })
+    },
+    viewView:function(){
+      this.forums=[]
+      self=this;
+      $.ajax({
+        url:'./../backend/viewmanagediscussion.php',
+        method:'POST',
+        data:{
+        }
+      })
+      .done(function(data){
+        if (JSON.parse(data).reply) {
+          if (JSON.parse(data).query) {
+            self.forums=JSON.parse(data).forums
+          }
+        }
+        else {
+          self.modalMessage=JSON.parse(data).res;
+          self.showModal=!self.showModal
+        }
+      })
+      .always(function(data){
+        console.log('DONE')
+      })
+      .fail(function(data){
+        self.modalMessage=data.statusText;
+        self.showModal=!self.showModal
+      })
+    }
+  }
+})
+
+
+
+</script>
+  </body>
+</html>

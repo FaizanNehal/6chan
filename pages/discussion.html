@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Discussion</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="./../font/css/all.css" rel="stylesheet">
+    <script src="./../files/vue.js"></script>
+    <script src="./../files/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+
+    <style>
+      *{
+        margin:0;color:#273849;font-family: Source Sans Pro;
+      }
+      body{
+        background-color: #EEEEEE;
+      }
+      .head{
+        height:55px;background-color:#42b983;
+
+      }
+      .inside_head{
+        width:80%;margin:0px auto;font-size: 20px;font-weight: 600;color:#fff;
+        letter-spacing: 2px;line-height: 55px;
+      }
+      .inside_head ul li{
+        float:right;list-style:none;padding:0px 10px;color:#fff;
+      }
+
+      .inside_head ul li a{
+        text-decoration:none;color:#fff;
+      }
+
+      i{
+        font-size: 18px;color:#fff;
+      }
+      .lefty{
+        float:left;
+      }
+      span{
+        font-size: 20px;font-weight: 600;letter-spacing: 2px;
+      }
+      .head span a{
+        text-decoration: none;color:#fff;
+      }
+
+
+
+      .second_sec{
+        height: 100px;
+      }
+
+
+      .main_sec{
+        width: 90%;
+        margin:0px auto;padding: 2px;
+
+      }
+      .dis_head{
+        height:100px;background-color: whitesmoke;padding: 10px;border: 4px solid #42b983;
+        font-size: 26px;color: #246548;font-weight: 600;letter-spacing: 1px;
+        word-spacing: 2px;border-radius: 5px;display: flex;
+
+      }
+      .dis_head span{
+
+
+      }
+      .dis_head span a{
+        color: #246548;
+      }
+      .dis_head_main{
+        width:75%;overflow: hidden;
+      }
+      .dis_head_main:hover{
+        text-decoration: underline;cursor:pointer;
+      }
+      .dis_head_info{
+        width: 25%;line-height: 18px;font-weight: 900;
+      }
+      .dis_head_info_up{
+
+      }
+      .dis_head_info_down{
+        text-align: center;
+      }
+      .dis_head_info_down a{
+        text-decoration: none;
+      }
+      .temp_button{
+        display: inline-block;color: #42b983 !important;text-transform: uppercase;
+        background: #fff;padding: 10px 20px;border: 4px solid #42b983;margin:0px auto;
+        margin-top: 20px;
+        transition: all 0.3s ease 0s;
+      }
+      .temp_button:hover{
+        background-color: #42b983;color:#fff;letter-spacing: 2px;
+        transition: all 0.3s ease 0s;
+      }
+
+
+
+
+      .dis_comment{
+        display:flex;padding: 5px;
+      }
+      .dis_comment_left{
+        width:20%;
+      }
+      .dis_comment_right{
+        width:80%;
+      }
+      .dis_comment_right textarea{
+        border-style: none;height:100px;resize: none;
+        width:90%;border: 1px solid #42b983;font-size: 16px;
+        border-radius: 25px;padding: 14px;box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+        background-color: #FCFCFC;
+
+      }
+      .comment_button{
+        padding:15px;background-color: #42b983;color:#fff;
+        width:70px;text-decoration: none;margin: 5px;
+        border-radius: 15px;font-size: 20px;font-weight: 900;
+        letter-spacing: 1px;text-align: center;
+      }
+      .comment_button a{
+        text-decoration: none;color:#fff;
+      }
+      .upload_a_picture{
+        border-style: none;
+      }
+
+
+
+
+.right{
+  color:red;  position: absolute;right:15px;top:15px;cursor: pointer;
+}
+.right:hover{
+  font-size: 140%;transition:all 0.2s ease
+}
+
+
+
+
+      .mess_main{
+        display:flex;margin:5px;margin-bottom: 10px;border: 1px solid #e3e3e3;position: relative;
+        background-color: #F7F7FF;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+        webkit-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+      }
+      .mess_left{
+        width: 20%;padding: 10px 0px;
+      }
+      .mess_left span a{
+        color: #42b983;
+      }
+      .image_div{
+        width: 100px;height:100px;margin: 0px auto;
+        border-radius: 50%;
+        background-size: cover;
+      }
+      .ml_main{
+        text-align: center;padding: 10px;
+      }
+      .ml_main:hover{
+        color:#3F6634;text-decoration: underline;
+      }
+      .mess_right{
+        width:80%;padding: 10px;font-size: 17px;line-height: 21px;font-weight: 400;
+        color: #404040;
+      }
+      .mess_right_reply{
+        font-size: 16px;border-top: 0.5px solid #273849;line-height: 25px;
+        margin-left: 20px;
+      }
+      .mess_right_reply_user{
+        font-size: 16px;color: #42b983;cursor: pointer;
+      }
+      .mess_right_reply_btn{
+        color: #D33F49;margin: 15px 0px;cursor: pointer;
+      }
+      .mess_right_reply_btn_logo{
+        margin-left: 20px;
+      }
+
+
+      .mess_right_reply_input{
+        border-style: none;border: 1px solid #273849;width: 75%;
+        line-height: 25px;  border-radius: 10px;margin: 20px 0px;
+
+      }
+      .mess_right_reply_post{
+        border-style: none;background-color: #42b983;margin-left: 10px;
+        height: 30px;width:75px;color:#fff;font-weight: 600;cursor: pointer;
+      }
+      .mess_right_reply_post:hover{
+        width:80px;font-size: 120%;
+      }
+
+      .comment_display{
+        width:97%;
+      }
+      .picture_upload{
+        background-color: #111111;width:400px;height: 400px;margin-left: 20px;
+      }
+      .mess_right_bot{
+        height:30px;margin-top: 20px;border-top: 1px solid #273849;
+        bottom: 0;
+      }
+      .mess_right_bot span{
+        font-size: 12px;float: right;
+      }
+
+
+
+      .main_nav{
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    background-color: white!important;
+    border-bottom-width: 1px!important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+    webkit-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+    border-color: #e3e3e3;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 18px;
+    padding-left: 1.923rem !important;
+    padding-right: 1.923rem !important;
+    padding-bottom: 1.539rem !important;
+    padding-top: 1.539rem !important;
+
+    color: #404040;
+      }
+
+      .main_nav h1{
+        margin-top: 20px;
+        margin-bottom: 10px;
+        display: block;
+        font-size: 2em;
+        margin-block-start: 0.67em;
+        margin-block-end: 0.67em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+          font-weight: 400;
+          padding-right: 1.923rem !important;
+      }
+
+
+
+      .Modal{
+        position: fixed;
+        left: 0;top: 0;
+        width: 100%;height: 100%;
+        z-index: 1;
+        background: rgba(0,0,0,0.4);
+      }
+      .modalMessage{
+        width: 500px;height: 300px;
+      background-color: #f4f4f4;
+      position: absolute;
+        top:50%;left: 50%;
+        margin-left: -250px;
+        margin-top: -150px;
+        box-shadow: 0 5px 8px 0 ;
+        border-radius: 5%;
+      }
+      .modalshow{
+        position: absolute;height: 40%;width: 100%;font-weight: 800;
+        text-align: center;padding: 55px 0;font-size: 28px;
+        color: #BF0603;
+      }
+      .modalbtn{
+        position: absolute;height: 20%;width: 100%;bottom: 0;
+        text-align: center;
+      }
+      .modalbtnclick{
+        cursor: pointer;border-radius: 5%;background-color: #BF0603;
+        color: #F6F1D1;font-weight: 800;padding:10px 15px;font-size:20px;
+        transition: 0.1s ease;
+      }
+      .modalbtnclick:hover{
+        padding: 10px 30px;font-size: 22px;transition: 0.3s ease;
+      }
+
+
+
+
+      .pagination_div{
+        text-align: center;color: #42b983;margin: 20px;
+      }
+      .pagination_num{
+        color: #42b983;font-size: 23px;border: 2px solid #42b983;text-align: center;
+        margin: 2px;padding:2px 2px 2px 5px;cursor: pointer;background-color: #F7F7FF;
+      }
+      .pagination_num:hover{
+        background-color: #42b983;color: #fff;transition: 0.2s ease;
+      }
+
+
+
+      .foot{
+        height:50px;background-color: #42b983;color:#fff;text-align: center;
+        padding: 20px;letter-spacing: 2px;position:relative;
+      }
+      .foot_bot{
+        position: absolute;bottom: 0;text-align: center;width: 100%;
+        text-decoration: none;margin-bottom: 20px;
+      }
+      .foot_bot a{
+        text-decoration: none;
+
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="Modal" v-if="showModal">
+        <div class="modalMessage">
+          <div class="modalshow">
+            {{modalMessage}}
+          </div>
+          <div class="modalbtn">
+            <button class="modalbtnclick" v-on:click="showModal=!showModal"> Okay</button>
+          </div>
+        </div>
+      </div>
+    <div class="head">
+
+      <div class="inside_head">
+        <span class="lefty"><a href="#">6Chan</a></span>
+        <ul>
+          <li><a href="#" v-on:click='loggingout()'>Log Out <i class="fas fa-sign-out-alt"></i></a></li>
+          <li><a href="./userprofile.html"><i class=" far fa-user"></i> Profile</a></li>
+          <li><a href="./search.html"><i class="fas fa-search"></i> Search</a></li>
+          <li><a href="./create.html"><i class="fas fa-plus"></i> Create</a></li>
+        </ul>
+      </div>
+    </div>                                                                                     <!-- HEAD ENDS HERE  -->
+
+
+
+
+
+
+
+
+      <div class="main_nav">
+        <div class="dis_head_main" v-on:click="openDistInfo()">
+        <h1>{{disc_info['disc_name']}}</h1>
+      </div>
+      <div class="dis_head_info">
+        <div class="dis_head_info_up">
+
+
+        <span><a href="#" v-on:click="OpenMemberList(pageID)">{{disc_info['disc_members']}} Members</a></span>
+        <br>
+        <span>Created On: {{disc_info['disc_created_on']}}</span>
+        </div>
+        <div class="dis_head_info_down">
+          <div class="temp_button">
+            <a href="#" v-on:click="Join(pageID)">
+            <i class="fas fa-plus"></i> Join
+          </a>
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="main_sec">
+      <div class="dis_body">
+                                                                                                <!-- REGISTRATION OF COMPONENT-->
+        <dismess v-for='pts in posts' v-on:relay='sendReply(arguments[0],pts.comment_id)'>
+          <div slot='user_pic' class="image_div" v-bind:style="pts.picture_info!=null?
+          {'background-image':'url(./../assets/profiles/'+pts.user_id+'/'+pts.picture_info+')'}:
+          {'background-image':'url(./../assets/default.jpg)'}" v-on:click="visitProfile(pts.user_id)"></div>
+          <a href=# slot='username' v-on:click="visitProfile(pts.user_id)">{{pts.username}}</a>
+          <p slot='comment'>{{pts.comment}}</p>
+          <div class="picture_upload" slot="post_picture" v-show="pts.post_picture_info!=nullvar"
+           v-bind:style="pts.post_picture_info!=null?{'background-image':'url(./../assets/posts/'+pageID+'/'+pts.post_picture_info+')',
+         'background-size':'cover'}:{}" >
+
+          </div>
+          <i slot='remove' class="fas fa-times right" v-if="admin" v-on:click="removePost(pts.comment_id)"></i>
+          <span slot='date'>{{pts.date}}</span>
+          <p  slot='post_replies_slot' class="mess_right_reply" v-for='rpts in post_replies' v-if="pts.comment_id==rpts.post_id" >
+            <span class="mess_right_reply_user" v-on:click="visitProfile(rpts.user_id)">{{rpts.user_name}} </span>{{rpts.reply}}
+          </p>
+
+
+
+        </dismess>
+        <div class="pagination_div">
+          <span class="pagination_num" v-for="n in parseInt(totalPages)" v-bind:style="visitPage==n?
+          {'background-color':'#16DB65','color':'#fff'}:
+          {}" v-on:click="pagination(n)">
+          {{n}}
+          </span>
+
+        </div>
+
+
+      </div>
+      <div class="dis_comment">
+        <div class="dis_comment_left">
+
+        </div>
+        <div class="dis_comment_right">
+          <span>Post a comment:</span><br><br>
+          <textarea v-model='comment'></textarea>
+          <input type="file" class="upload_a_picture" v-on:change="uploadPicture($event)"/>
+          <div class="comment_button" v-on:click='postComment()'>
+            <a href="#">
+            <i class="fas fa-plus"></i> Post
+          </a>
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="foot">
+      <p>This site was creted by Faizan Nehal, Ammara Riaz and Hamza Shahid</p>
+      <div class="foot_bot">
+        <a href="#">Terms & conditions</a> | <a href="#">Team</a> | <a href="#">
+        Policy</a> | <a href="#">Contact Us</a>
+
+      </div>             <!--THIS IS FOOTER ONLY-->
+    </div>
+
+  </div>
+
+  <template id="user_mess" ref='p'>                                                       <!-- TEMPLATE START-->
+    <div class="mess_main">
+      <div class="mess_left">
+        <slot name='user_pic'></slot>
+        <div class="ml_main">
+          <span><slot name='username'></slot></span>
+        </div>
+      </div>
+      <div class="mess_right">
+        <div class='comment_display'><slot  name='comment'></slot>
+
+          <slot name="post_picture"></slot>
+        </div>
+        <slot name='remove'></slot>
+
+        <div class="mess_right_bot">
+
+
+        <span>Posted On: <slot name=date></slot></span>
+        </div>
+        <slot name='post_replies_slot'></slot>
+        <span class="mess_right_reply_btn" v-if="reply" v-on:click="reply=!reply">
+          <i class="fas fa-reply mess_right_reply_btn mess_right_reply_btn_logo"></i> Reply</span>
+        <input type="text" placeholder="Write Reply" v-on:blur="looseFocus" class="mess_right_reply_input" v-model="message"  v-if="!reply" >
+        <button v-on:click='postReply' class="mess_right_reply_post" v-if="!reply">
+          <i class="fas fa-reply "></i> Reply</button>
+
+
+      </div>
+
+    </div>
+
+  </template>
+
+  <script type="text/javascript">
+
+
+
+
+
+
+
+  Vue.component('dismess',{
+    template:'#user_mess',
+    data:function(){
+      return{
+        reply:true,
+        message:''
+      }
+    },
+    methods:{
+      postReply:function(){
+        this.$emit('relay',this.message)
+      },
+      looseFocus:function(){
+        if (this.message=="") {
+          this.reply=!this.reply
+          return
+        }
+        else {
+          return
+        }
+      }
+    }
+
+  })
+
+
+
+
+
+  var vm=new Vue({
+    el:'#app',
+    data:{
+      pageID:0,
+      disc_info:[],
+      post_replies:[],
+      posts:[],
+      comment:'',
+      picture:'',
+      pictureUpload:false,
+      user:0,
+      admin:false,
+      reply_btn:true,
+      nullvar:null,
+      visitPage:0,
+      totalPages:0,
+      showModal:false,
+      modalMessage:''
+
+    },
+    created:function(){
+      console.log(parseInt(document.location.href.split('?')[1].split('=')[1]))
+      this.pageID=parseInt(document.location.href.split('?')[1].split('=')[1])
+
+
+      self=this,
+
+
+      $.ajax({
+        url:'./../backend/viewdiscussion.php',
+        method:'POST',
+        data:{
+          pageid:this.pageID,
+          pageno:this.visitPage
+        }
+
+      })
+      .done(function(data){
+        if (JSON.parse(data).reply) {
+          self.disc_info=JSON.parse(data).disc_info
+          self.visitPage=JSON.parse(data).currentPage
+          self.totalPages=JSON.parse(data).pages
+          if (JSON.parse(data).postReply) {
+            self.posts=JSON.parse(data).post_info
+            self.user=JSON.parse(data).userid
+            self.admin=JSON.parse(data).admin
+            if (JSON.parse(data).replySignal) {
+              console.log(JSON.parse(data).replies)
+              self.post_replies=JSON.parse(data).replies
+            }
+          }
+          else {
+            console.log("This forum has no comments")
+          }
+        }
+        else{
+          if (JSON.parse(data).login) {
+            alert(JSON.parse(data).res)
+            window.location.href='./Login.html'
+          }
+          self.modalMessage=JSON.parse(data).res
+          self.showModal=!self.showModal
+        }
+
+      })
+      .fail(function(data){
+        self.modalMessage=data.statusText;
+        self.showModal=!self.showModal
+      })
+      .always(function(data){
+        console.log('request sent')
+
+      })
+
+
+    },
+    computed:{
+
+    },
+    methods:{
+      postComment:function(){
+
+        if (this.pictureUpload) {
+          var fd=new FormData();
+          fd.append('image',this.picture)
+          fd.set('imageSet','set')
+          fd.set('comment',this.comment)
+          fd.set('disc_id',this.pageID)
+          axios.post('./../backend/postcomment.php',fd,{
+            header:{
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then(function(response){
+            if(response.data.reply){
+              location.reload()
+            }
+            else {
+              console.log(response.data.res)
+            }
+          })
+          .catch(function(){
+            console.log('FAILED AXIOS')
+          })
+          return
+        }
+        if (this.comment=='') {
+          self.modalMessage="Please Enter in the comment field first"
+          self.showModal=!self.showModal
+          return
+        }
+        self=this,
+
+        $.ajax({
+          url:'./../backend/postcomment.php',
+          method:'POST',
+          data:{
+            disc_id:self.disc_info['disc_id'],
+            comment:self.comment
+          }
+        })
+        .done(function(data){
+          if (JSON.parse(data).reply) {
+            console.log("COMMENT ADDED INTO DATABASE")
+            location.reload()
+          }
+          else{
+            if (JSON.parse(data).login) {
+              alert(JSON.parse(data).res)
+              window.location.href='./Login.html'
+            }
+            self.modalMessage=JSON.parse(data).res
+            self.showModal=!self.showModal
+          }
+        })
+        .fail(function(){
+          self.modalMessage=data.statusText;
+          self.showModal=!self.showModal
+        })
+        .always(function(){
+          self.comment=''
+        })
+
+      },
+      Join:function(discID){
+        self=this,
+        $.ajax({
+          url:'./../backend/joindiscussion.php',
+          method:'POST',
+          data:{
+            joinID:self.pageID
+          }
+        })
+        .always(function(){
+          console.log("SENT")
+        })
+        .done(function(data){
+          if (JSON.parse(data).reply) {
+            self.modalMessage=JSON.parse(data).res
+            self.showModal=!self.showModal
+          }
+          else {
+            if (JSON.parse(data).login) {
+              alert(JSON.parse(data).res)
+              window.location.href='./Login.html'
+            }
+            self.modalMessage=JSON.parse(data).res
+            self.showModal=!self.showModal
+          }
+        })
+        .fail(function(data){
+          self.modalMessage=data.statusText;
+          self.showModal=!self.showModal
+        })
+      },
+      pagination:function(pageNo){
+
+        this.visitPage=pageNo
+        self=this,
+
+
+        $.ajax({
+          url:'./../backend/viewdiscussion.php',
+          method:'POST',
+          data:{
+            pageid:this.pageID,
+            pageno:this.visitPage
+          }
+
+        })
+        .done(function(data){
+          if (JSON.parse(data).reply) {
+            self.disc_info=JSON.parse(data).disc_info
+            self.visitPage=JSON.parse(data).currentPage
+            if (JSON.parse(data).postReply) {
+              self.posts=JSON.parse(data).post_info
+              self.user=JSON.parse(data).userid
+              self.admin=JSON.parse(data).admin
+              if (JSON.parse(data).replySignal) {
+                console.log(JSON.parse(data).replies)
+                self.post_replies=JSON.parse(data).replies
+              }
+            }
+            else {
+              console.log("This forum has no comments")
+            }
+          }
+          else{
+            if (JSON.parse(data).login) {
+              alert(JSON.parse(data).res)
+              window.location.href='./Login.html'
+            }
+            self.modalMessage=JSON.parse(data).res
+            self.showModal=!self.showModal
+          }
+        })
+        .fail(function(data){
+          self.modalMessage=data.statusText;
+          self.showModal=!self.showModal
+        })
+        .always(function(data){
+          console.log('request sent')
+        })
+      },
+      OpenMemberList:function(id){
+        window.location.href='./viewmembers.html?pageID='+id
+      },
+      visitProfile:function(id){
+        if (id==this.user) {
+            window.location.href='./userprofile.html'
+        }
+        else {
+          window.location.href='./visitingprofile.html?visitID='+id
+        }
+
+      },
+      removePost:function(id){
+        self=this
+        $.ajax({
+          url:'./../backend/removepost.php',
+          method:'POST',
+          data:{
+            discId:self.pageID,
+            removePost:id
+          }
+        })
+        .done(function(data){
+          if (JSON.parse(data).reply) {
+            window.location.reload();
+          }
+          else {
+            if (JSON.parse(data).login) {
+              alert(JSON.parse(data).res)
+              window.location.href='./Login.html'
+            }
+            self.modalMessage=JSON.parse(data).res
+            self.showModal=!self.showModal
+          }
+        })
+        .always(function(data){
+
+        })
+        .fail(function(data){
+          self.modalMessage=data.statusText;
+          self.showModal=!self.showModal
+
+        })
+      },
+      sendReply:function(message,postID){
+        if (message=="") {
+          return
+        }
+        console.log(message)
+        console.log(postID)
+        var post_ID=parseInt(postID)
+        var self=this;
+        $.ajax({
+          url:'./../backend/postreply.php',
+          method:'POST',
+          data:{
+            reply:message,
+            postId:post_ID,
+            discId:this.pageID
+          }
+        })
+        .done(function(data){
+          if(JSON.parse(data).reply) {
+
+            location.reload()
+          }
+          else {
+            if (JSON.parse(data).login) {
+              alert(JSON.parse(data).res)
+              window.location.href='./Login.html'
+            }
+            self.modalMessage=JSON.parse(data).res
+            self.showModal=!self.showModal
+          }
+        })
+        .always(function(data){
+          console.log("SENT")
+        })
+        .fail(function(data){
+          self.modalMessage=data.statusText;
+          self.showModal=!self.showModal
+        })
+
+      },
+      uploadPicture:function(event){
+
+        this.picture=event.target.files[0]
+        this.pictureUpload=true
+
+      },
+      openDistInfo:function(){
+        window.location.href='./viewinformation.html?pageID='+this.pageID
+      },
+      loggingout:function(){
+        $.ajax({
+          url:'./../backend/logout.php',
+          data:{
+          }
+        })
+        .always(function(data){
+          console.log("DONE")
+        })
+        .done(function(data){
+          window.location.href='./Login.html'
+        })
+        .fail(function(data){
+          console.log("FAIL")
+        })
+      }
+
+    }
+  })
+
+  </script>
+
+
+  </body>
+</html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="./../font/css/all.css" rel="stylesheet">
+    <script src="./../files/vue.js"></script>
+    <script src="./../files/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+
+    <style>
+      *{
+        margin:0;color:#273849;font-family: Source Sans Pro;
+      }
+      body{
+        background-color: #EEEEEE
+      }
+
+      .head{
+        height:55px;background-color:#42b983;
+
+      }
+      .inside_head{
+        width:80%;margin:0px auto;font-size: 20px;font-weight: 600;color:#fff;
+        letter-spacing: 2px;line-height: 55px;
+      }
+      .inside_head ul li{
+        float:right;list-style:none;padding:0px 10px;color:#fff;
+      }
+      .inside_head span{
+        font-size: 20px;font-weight: 600;letter-spacing: 2px;color: #fff;
+        font-size: 20px;
+      }
+
+      .inside_head ul li a{
+        text-decoration:none;color:#fff;
+      }
+
+      .inside_head i{
+        font-size: 18px;color:#fff;
+      }
+      .lefty{
+        float:left;
+      }
+      span{
+        font-weight: 600;letter-spacing: 2px;
+      }
+      span a{
+        text-decoration: none;color:#fff;
+      }
+
+
+
+      .second_sec{
+        height: 100px;background-color: #fff;
+      }
+
+
+      .third_sec{
+        font-size: 35px;
+        color:#42b983;padding: 2px 10px;
+        background-color: #fff;
+        border-bottom:1px solid #2D3047;border-bottom-radius: 25%;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+        webkit-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+      }
+      .third_sec_div{
+        width:80%;height: 100px;margin: 0px auto;
+        text-align: center;line-height: 130px;overflow: hidden;
+      }
+      .third_sec span{
+        color:#42b983;
+      }
+      .placeholder20{
+        height: 20px;
+      }
+      .third_sec input{
+        width:60%;height: 50px;border: none;border-style:none;font-size: 30px;
+        font-family: Source Sans Pro; font-weight: 500;
+        letter-spacing: 2px;border-radius: 15px;border:2px solid #42b983;
+        text-align: center;
+      }
+      .third_sec input:focus{
+        border-radius: 25px;border:4px solid #2D3047;transition: all 0.2s;
+      }
+      .third_sec i{
+        color:#42b983;
+      }
+      .third_sec button{
+        border-style: none;font-size: 20px;background-color: #fff;
+        color: #42b983;text-transform: uppercase;
+        padding: 15px;border-radius: 6px;border: 4px solid #42b983;
+        transition: all 0.3s ease 0s;
+      }
+      .third_sec button:hover{
+
+        color: #2D3047;text-transform: uppercase;
+        padding: 15px;border-radius: 50px;border: 4px solid #2D3047;
+        transition: all 0.3s ease 0s;
+      }
+
+
+
+
+
+
+      .content_body{
+        width:90%;margin: 0px auto;background-color: #EEEEEE;margin-top: 50px;
+        margin-bottom: 50px;
+      }
+
+
+
+
+
+      .temp_body{
+        border: 2px solid lightgrey;margin: 4px;background-color: #fff;margin-bottom: 10px;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+      }
+      .temp_body:hover{
+        border: 2px solid #273849;transition: 0.2s ease;
+      }
+      .temp_body span{
+        font-size: 13px;color:#42b983
+      }
+      .temp_body p{
+        font-size: 18px;font-weight: 800;color:#273849
+      }
+      .temp_body a{
+        text-decoration: none;color:#273849
+      }
+      .temp_body2{
+        display:flex;
+      }
+      .temp_m1{
+        width:80%;
+      }
+      .temp_m2{
+        width:20%;text-align: center;
+      }
+      .temp_head{
+        padding:5px 10px;
+      }
+      .temp_main{
+        padding:0px 10px;
+      }
+      .temp_main p:hover{
+        text-decoration: underline;
+      }
+
+      .temp_end{padding: 5px 10px}
+      .temp_button{
+        display: inline-block;color: #42b983 !important;text-transform: uppercase;
+        background: #fff;padding: 10px 20px;border: 4px solid #42b983;margin:0px auto;
+        margin-top: 20px;
+        transition: all 0.3s ease 0s;
+      }
+      .temp_button p{
+        display: inline-block;
+      }
+      .temp_button:hover{
+        background-color: #42b983;color:#fff;letter-spacing: 2px;
+        transition: all 0.3s ease 0s;
+      }
+
+
+      .Modal{
+        position: fixed;
+        left: 0;top: 0;
+        width: 100%;height: 100%;
+        z-index: 1;
+        background: rgba(0,0,0,0.4);
+      }
+      .modalMessage{
+        width: 500px;height: 300px;
+      background-color: #f4f4f4;
+      position: absolute;
+        top:50%;left: 50%;
+        margin-left: -250px;
+        margin-top: -150px;
+        box-shadow: 0 5px 8px 0 ;
+        border-radius: 5%;
+      }
+      .modalshow{
+        position: absolute;height: 40%;width: 100%;font-weight: 800;
+        text-align: center;padding: 55px 0;font-size: 28px;
+        color: #BF0603;
+      }
+      .modalbtn{
+        position: absolute;height: 20%;width: 100%;bottom: 0;
+        text-align: center;
+      }
+      .modalbtnclick{
+        cursor: pointer;border-radius: 5%;background-color: #BF0603;
+        color: #F6F1D1;font-weight: 800;padding:10px 15px;font-size:20px;
+        transition: 0.1s ease;
+      }
+      .modalbtnclick:hover{
+        padding: 10px 30px;font-size: 22px;transition: 0.3s ease;
+      }
+
+
+
+      .user_box{
+        height: 350px;
+        width: 250px;
+        padding: 1px;background-color: #fff;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+        webkit-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+        margin: 10px;border: 2px solid transparent; float: left;
+      }
+      .user_box:hover{
+        cursor: pointer;border: 2px solid grey;transition: 0.3s ease;
+      }
+      .user_box_image{
+        width: 150px;height:150px;margin: 0px auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius: 50%;
+        background-size: cover;
+
+      }
+      .user_box_gap{
+        width: 80%;
+        margin: 0px auto;border-bottom: 1px solid grey;
+      }
+      .user_box_info{
+        text-align: center;font-size: 24px;padding-top: 20px;
+      }
+
+
+
+
+
+
+      .checkboxParent{
+        width: 25%;
+        margin: 0px auto;
+      }
+      .checkboxLabel{
+        font-size: 22px;
+      }
+      .checkboxCus{
+        width: 15px;height: 15px;
+        border: 3px solid #42b983;
+        position: relative;
+        top: 3px;
+        border-radius: 15%;
+        cursor: pointer;
+        transition: 0.4s ease;
+        display: inline-block;
+        margin: 0px auto;
+      }
+
+      .clickcheckbox{
+        background-color: #42b983;
+        transition: 0.4s ease;
+      }
+
+      .foot{
+        height:50px;background-color: #42b983;color:#fff;text-align: center;
+        padding: 20px;letter-spacing: 2px;position:fixed;bottom: 0;width: 100%;
+      }
+      .foot_bot{
+        position: absolute;bottom: 0;text-align: center;width: 100%;
+        text-decoration: none;margin-bottom: 20px;
+      }
+      .foot_bot a{
+        text-decoration: none;
+
+      }
+
+
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="Modal" v-if="showModal">
+        <div class="modalMessage">
+          <div class="modalshow">
+            {{modalMessage}}
+          </div>
+          <div class="modalbtn">
+            <button class="modalbtnclick" v-on:click="showModal=!showModal"> Okay</button>
+          </div>
+        </div>
+      </div>
+    <div class="head">
+      <div class="inside_head">
+        <span class="lefty"><a href="#">6Chan</a></span>
+        <ul>
+          <li><a href="#" v-on:click='loggingout()'>Log Out <i class="fas fa-sign-out-alt"></i></a></li>
+          <li><a href="./userprofile.html"><i class=" far fa-user"></i> Profile</a></li>
+          <li><a href="#"><i class="fas fa-search"></i> Search</a></li>
+          <li><a href="./create.html"><i class="fas fa-plus"></i> Create</a></li>
+        </ul>
+      </div>
+    </div>                                                                                     <!-- HEAD ENDS HERE  -->
+
+    <div class="second_sec">
+      <div class="second_sec_butn">
+      </div>
+    </div>
+
+    <div class="third_sec">
+      <div class="third_sec_div">
+        <span>SEARCH: </span>
+        <input type="text" v-model='search' >
+        <button type="button" v-on:click='searching()'><i class="fas fa-search"></i> Search</button>
+      </div>
+      <div class="placeholder20"></div>
+      <div class="checkboxParent">
+
+
+      <div class="checkboxCus" v-on:click="searchUsers=!searchUsers" v-bind:class="{'clickcheckbox':searchUsers}">
+
+      </div>
+      <span class="checkboxLabel"> Search Users</span>
+      </div>
+      <div class="line_div">
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="content_body">
+
+        <tabb v-if="forumDisplay" v-for='forums in forums_list' >
+
+          <span slot='category'>{{forums.disc_category}}</span>
+          <p slot='name' v-on:click='openDist(forums.disc_id)'>{{forums.disc_name}}</p>
+          <span slot='comments'>{{forums.disc_comments}}</span>
+          <p slot='callJoin' v-on:click="Join(forums.disc_id)">JOIN</p>
+
+
+        </tabb>
+        <users v-if="userDisplay" v-for="users in users_list"  >
+          <div slot="image" class="user_box_image" v-on:click="visitProfile(users.user_id)" v-bind:style="users.picture!=null?
+          {'background-image':'url(./../assets/profiles/'+users.user_id+'/'+users.picture+')'}:
+          {'background-image':'url(./../assets/default.jpg)'}">
+
+          </div>
+          <span slot="username" v-on:click="visitProfile(users.user_id)">{{users.username}}</span>
+          <span slot="firstname" v-on:click="visitProfile(users.user_id)">{{users.first_name}}</span>
+          <span slot="lastname" v-on:click="visitProfile(users.user_id)">{{users.last_name}}</span>
+          <span slot="comments" v-on:click="visitProfile(users.user_id)">{{users.comments}}</span>
+        </users>
+
+
+
+
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <template id="disc_info">
+      <div class="temp_body">
+          <div class="temp_body2">
+            <div class="temp_m1">
+              <a href="#">
+          <div class="temp_head">
+          <span>Category: <slot name='category'></slot></span>
+
+        </div>
+
+        <div class="temp_main">
+          <slot name='name'></slot>
+
+        </div>
+
+        <div class="temp_end">
+          <span>Comments:<slot name='comments'></slot></span>
+        </div>
+        </a>
+        </div>
+        <div class="temp_m2">
+
+
+          <div class="temp_button">
+            <a href="#">
+            <i class="fas fa-plus"></i><slot name='callJoin'></slot>
+          </a>
+          </div>
+
+        </div>
+        </div>
+
+      </div>
+
+    </template>
+
+
+
+
+    <template id="user_info">
+      <div class="user_box">
+
+
+        <slot name="image" ></slot>
+        <div class="user_box_gap">  </div>
+          <div class="user_box_info">
+
+            <slot name='username'></slot>
+            <br>
+
+            <slot name='firstname'></slot>
+            <span> </span>
+            <slot name='lastname'></slot>
+            <br>
+            <span>Posts: </span>
+            <slot name='comments'></slot>
+          </div>
+
+
+      </div>
+
+    </template>
+
+
+    <script type="text/javascript">
+
+    Vue.component('tabb',{
+      template:'#disc_info',
+      data:function(){
+        return {
+          yes:'dd',
+
+        }
+      },
+
+    })
+
+    Vue.component('users',{
+      template:'#user_info',
+      data:function(){
+        return{
+
+        }
+      },
+    })
+
+    var vm=new Vue({
+      el:'#app',
+      data:{
+        search:'',
+        forums_list:[],
+        users_list:[],
+        showModal:false,
+        modalMessage:'',
+        searchUsers:false,
+        userDisplay:false,
+        forumDisplay:false,
+        userSearchSignal:''
+
+      },
+      methods:{
+        searching:function(){
+          if(this.search==''){
+            console.log("Fill The Field First")
+            this.modalMessage="Fill The Field First";
+            this.showModal=!this.showModal
+            return
+          }
+          if (this.searchUsers) {
+            this.userSearchSignal='set'
+          }
+          else {
+            this.userSearchSignal='notset'
+          }
+          this.request()
+        },
+        request:function(){
+          self=this,
+          $.ajax({
+            url:'./../backend/searching.php',
+            method:'POST',
+            data:{
+              search:this.search,
+              users:this.userSearchSignal
+            }
+          })
+          .done(function(data){
+
+            if (JSON.parse(data).reply) {
+              if (JSON.parse(data).forum) {
+                self.forums_list=JSON.parse(data).forums
+                self.forumDisplay=JSON.parse(data).forum
+                self.userDisplay=JSON.parse(data).user
+              }
+              if (JSON.parse(data).user) {
+                self.users_list=JSON.parse(data).users
+                self.userDisplay=JSON.parse(data).user
+                self.forumDisplay=JSON.parse(data).forum
+              }
+
+            }
+            else {
+              if (JSON.parse(data).login) {
+                alert(JSON.parse(data).res)
+                window.location.href='./Login.html'
+              }
+              self.modalMessage=JSON.parse(data).res;
+              self.showModal=!self.showModal
+            }
+
+          })
+          .fail(function(data){
+            self.modalMessage=data.statusText;
+            self.showModal=!self.showModal
+          })
+          .always(function(data){
+            console.log("SENT")
+          })
+        },
+        visitProfile:function(id){
+          if (id==this.user) {
+              window.location.href='./userprofile.html'
+          }
+          else {
+            window.location.href='./visitingprofile.html?visitID='+id
+          }
+
+        },
+        Join:function(id){
+          console.log(id)
+          $.ajax({
+            url:'./../backend/joindiscussion.php',
+            method:'POST',
+            data:{
+              joinID:id
+            }
+          })
+          .always(function(){
+            console.log("SENT")
+          })
+          .done(function(data){
+            if (JSON.parse(data).reply) {
+              self.modalMessage=JSON.parse(data).res;
+              self.showModal=!self.showModal
+            }
+            else {
+              if (JSON.parse(data).login) {
+                alert(JSON.parse(data).res)
+                window.location.href='./Login.html'
+              }
+              self.modalMessage=JSON.parse(data).res;
+              self.showModal=!self.showModal
+            }
+          })
+          .fail(function(data){
+            self.modalMessage=data.statusText;
+            self.showModal=!self.showModal
+          })
+
+        },
+
+        openDist:function(id){
+          window.location.href='./discussion.html?pageID='+id
+
+        },
+        loggingout:function(){
+          $.ajax({
+            url:'./../backend/logout.php',
+            data:{
+            }
+          })
+          .always(function(data){
+            console.log("DONE")
+          })
+          .done(function(data){
+            window.location.href='./Login.html'
+          })
+          .fail(function(data){
+            self.modalMessage=data.statusText;
+            self.showModal=!self.showModal
+          })
+        }
+
+      }
+
+    })
+
+
+
+    </script>
+
+  </body>
+</html>

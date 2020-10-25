@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Group Information</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="./../font/css/all.css" rel="stylesheet">
+    <script src="./../files/vue.js"></script>
+    <script src="./../files/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+    <style media="screen">
+      *{
+        margin:0;color:#273849;font-family: Source Sans Pro;
+      }
+      .head{
+        height:55px;background-color:#42b983;
+
+      }
+      .inside_head{
+        width:80%;margin:0px auto;font-size: 20px;font-weight: 600;color:#fff;
+        letter-spacing: 2px;line-height: 55px;
+      }
+      .inside_head ul li{
+        float:right;list-style:none;padding:0px 10px;color:#fff;
+      }
+
+      .inside_head ul li a{
+        text-decoration:none;color:#fff;
+      }
+
+      .inside_head i{
+        font-size: 18px;color:#fff;
+      }
+      .lefty{
+        float:left;
+      }
+      .inside_head span{
+        font-size: 20px;font-weight: 600;letter-spacing: 2px;
+      }
+      span a{
+        text-decoration: none;color:#fff;
+      }
+
+
+
+      .second_sec{
+        height: 100px;
+      }
+
+
+      .head_sec{
+        width:80%;margin: 0px auto;padding: 10px;
+      }
+
+
+
+
+
+
+
+
+
+      .third_sec{
+        width:80%;margin: 0px auto;
+      }
+      .information_sec{
+        width:50%;border: 4px solid #42b983;background-color: #F6FFF8;
+        border-radius: 25px;padding: 15px;
+      }
+      .placeholder10{
+        height: 10px;
+      }
+      .ans_span{
+        font-size:18px;font-style: italic;font-weight: 600;
+      }
+      .label_span{
+        color:#42b983;font-weight: 900;font-size:20px;
+      }
+
+
+      .back_butn_sec{
+        width:50%;text-align: right;padding: 20px;
+      }
+      .back_butn_sec button{
+        border-style: none;padding: 15px;font-size: 22px;
+        background-color: #42b983;color: #fff;cursor: pointer;
+      }
+
+      .Modal{
+        position: fixed;
+        left: 0;top: 0;
+        width: 100%;height: 100%;
+        z-index: 1;
+        background: rgba(0,0,0,0.4);
+      }
+      .modalMessage{
+        width: 500px;height: 300px;
+      background-color: #f4f4f4;
+      position: absolute;
+        top:50%;left: 50%;
+        margin-left: -250px;
+        margin-top: -150px;
+        box-shadow: 0 5px 8px 0 ;
+        border-radius: 5%;
+      }
+      .modalshow{
+        position: absolute;height: 40%;width: 100%;font-weight: 800;
+        text-align: center;padding: 55px 0;font-size: 28px;
+        color: #BF0603;
+      }
+      .modalbtn{
+        position: absolute;height: 20%;width: 100%;bottom: 0;
+        text-align: center;
+      }
+      .modalbtnclick{
+        cursor: pointer;border-radius: 5%;background-color: #BF0603;
+        color: #F6F1D1;font-weight: 800;padding:10px 15px;font-size:20px;
+        transition: 0.1s ease;
+      }
+      .modalbtnclick:hover{
+        padding: 10px 30px;font-size: 22px;transition: 0.3s ease;
+      }
+
+
+      .foot{
+        height:50px;background-color: #42b983;color:#fff;text-align: center;
+        padding: 20px;letter-spacing: 2px;position:relative;margin-top: 300px;
+      }
+      .foot_bot{
+        position: absolute;bottom: 0;text-align: center;width: 100%;
+        text-decoration: none;margin-bottom: 20px;
+      }
+      .foot_bot a{
+        text-decoration: none;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="Modal" v-if="showModal">
+        <div class="modalMessage">
+          <div class="modalshow">
+            {{modalMessage}}
+          </div>
+          <div class="modalbtn">
+            <button class="modalbtnclick" v-on:click="showModal=!showModal"> Okay</button>
+          </div>
+        </div>
+      </div>
+    <div class="head">
+      <div class="inside_head">
+        <span class="lefty"><a href="#">6Chan</a></span>
+        <ul>
+          <li><a href="#" v-on:click="loggingout()">Log Out <i class="fas fa-sign-out-alt"></i></a></li>
+          <li><a href="./userprofile.html"><i class=" far fa-user"></i> Profile</a></li>
+          <li><a href="./search.html"><i class="fas fa-search"></i> Search</a></li>
+          <li><a href="./create.html"><i class="fas fa-plus"></i> Create</a></li>
+        </ul>
+      </div>
+    </div>                                                                                     <!-- HEAD ENDS HERE  -->
+
+    <div class="second_sec">
+      <div class="second_sec_butn">
+      </div>
+    </div>
+
+    <div class="head_sec">
+      <h1>Details</h1>
+    </div>
+
+
+    <div class="third_sec">
+      <div class="information_sec">
+        <span class="label_span">Group ID: </span>
+        <span class="ans_span">{{info.disc_id}}</span>
+        <div class="placeholder10"></div>
+        <span class="label_span">Group Name: </span>
+        <span class="ans_span">{{info.disc_name}}</span>
+        <div class="placeholder10"></div>
+        <span class="label_span">Category:</span>
+        <span class="ans_span">{{info.disc_category}}</span>
+        <div class="placeholder10"></div>
+        <span class="label_span">Created By:</span>
+        <span class="ans_span">{{info.user_name}}</span>
+        <div class="placeholder10"></div>
+        <span class="label_span">Created On:</span>
+        <span class="ans_span">{{info.disc_created_on}}</span>
+        <div class="placeholder10"></div>
+        <span class="label_span">Members:</span>
+        <span class="ans_span">{{info.disc_members}}</span>
+        <div class="placeholder10"></div>
+        <span class="label_span">Comments:</span>
+        <span class="ans_span">{{info.disc_comments}}</span>
+        <div class="placeholder10"></div>
+        <span class="label_span">Description:</span>
+        <span class="ans_span">{{info.disc_description}}</span>
+      </div>
+
+      <div class="back_butn_sec">
+        <button type="button" name="button" v-on:click="openDist()"><i class="fas fa-long-arrow-alt-left"></i> Go Back</button>
+
+      </div>
+
+    </div>
+    <div class="foot">
+      <p>This site was creted by Faizan Nehal, Ammara Riaz and Hamza Shahid</p>
+      <div class="foot_bot">
+        <a href="#">Terms & conditions</a> | <a href="#">Team</a> | <a href="#">
+        Policy</a> | <a href="#">Contact Us</a>
+
+      </div>             <!--THIS IS FOOTER ONLY-->
+    </div>
+  </div>
+  <script type="text/javascript">
+    var vm=new Vue({
+      el:'#app',
+      data:{
+        pageID:0,
+        info:[],
+        showModal:false,
+        modalMessage:''
+
+      },
+      created:function(){
+        console.log(parseInt(document.location.href.split('?')[1].split('=')[1]))
+        this.pageID=parseInt(document.location.href.split('?')[1].split('=')[1])
+
+        self=this;
+
+        $.ajax({
+          url:'./../backend/viewdiscussioninfo.php',
+          method:'POST',
+          data:{
+            pageId:self.pageID
+          }
+        })
+        .done(function(data){
+          if (JSON.parse(data).reply) {
+            self.info=JSON.parse(data).info
+          }
+          else {
+            if (JSON.parse(data).login) {
+              alert(JSON.parse(data).res)
+              window.location.href='./Login.html'
+            }
+            self.modalMessage=JSON.parse(data).res;
+            self.showModal=!self.showModal
+          }
+        })
+        .always(function(data){
+
+        })
+        .fail(function(data){
+          self.modalMessage=data.statusText;
+          self.showModal=!self.showModal
+
+        })
+      },
+      methods:{
+        openDist:function(){
+          window.location.href='./discussion.html?pageID='+this.pageID
+        },
+        loggingout:function(){
+          $.ajax({
+            url:'./../backend/logout.php',
+            data:{
+            }
+          })
+          .always(function(data){
+            console.log("DONE")
+          })
+          .done(function(data){
+            window.location.href='./Login.html'
+          })
+          .fail(function(data){
+            console.log("FAIL")
+          })
+        }
+      }
+    })
+  </script>
+  </body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Sign Up</title>
+    <script src="./../files/vue.js"></script>
+    <script src="./../files/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <style media="screen">
+    *{
+      margin:0;font-family: Source Sans Pro;
+    }
+      .error_display{
+        color: tomato;padding: 10px;font-weight: bold;
+      }
+      .head{
+        position:absolute;width: 100%;z-index: 22;
+      }
+      .inside_head{
+        width: 80%;margin: 0px auto;font-size: 20px;font-weight: 600;
+        letter-spacing: 2px;color: #42b983;line-height: 55px;
+      }
+      .right_align{
+        float: right;
+      }
+      .inside_head a{
+        color: #42b983;text-decoration: none;
+      }
+      span{
+        font-size: 20px;font-weight: 600;letter-spacing: 2px;color: #42b983;
+      }
+
+      #particles-js{
+        height: 1000px;width:100%;position: relative;
+      }
+
+      .main_area{
+        position: absolute;width: 90%;margin: 0px auto;padding: 80px;z-index: 20;
+      }
+      .headings{
+        width:65%;margin: 0px auto;text-transform: uppercase;color: #273849;
+        font-size: 51px;font-weight: 300;text-align: center;font-style: normal;
+      }
+      .sign_in_box{
+        width:50%;margin: 0px auto;border: 5px solid lightgrey;padding:10px;
+        text-align: center;padding-top: 30px;background-color: #fff;border-radius: 5%;
+      }
+      input{
+        border-style: none;height:40px;
+        font-size: 20px;font-weight: 600;text-align: center;
+        border:2px solid #42b983;border-radius: 3px;
+      }
+      .placeholder20{
+        height: 20px;
+      }
+      .button_box{
+        text-align: center;
+      }
+      button{
+        background-color: #42b983;color:#fff;padding:10px 15px;font-size:20px;
+        font-weight: 400;border-radius: 28px;border:none;text-decoration: none;
+      }
+      button a{
+        color:#fff;text-decoration: none;
+      }
+      .signinbtn{
+        background-color: #42b983;color:#fff;padding:10px 15px;font-size:20px;
+        font-weight: 400;border-radius: 28px;border:none;text-decoration: none;
+      }
+      .signinbtn:hover{
+      padding: 10px 20px;font-size: 22px;letter-spacing: 1px;
+      background-color:#42b183; transition: 0.3s ease;
+      }
+      .foot{
+        height:50px;background-color: #42b983;color:#fff;text-align: center;
+        padding: 20px;letter-spacing: 2px;position:relative;
+      }
+      .foot_bot{
+        position: absolute;bottom: 0;text-align: center;width: 100%;
+        text-decoration: none;margin-bottom: 20px;
+      }
+      .foot_bot a{
+        text-decoration: none;
+
+      }
+
+      .Modal{
+        position: fixed;
+        left: 0;top: 0;
+        width: 100%;height: 100%;
+        z-index: 1;
+        background: rgba(0,0,0,0.4);
+      }
+      .modalMessage{
+        width: 500px;height: 300px;
+      background-color: #f4f4f4;
+      position: absolute;
+        top:50%;left: 50%;
+        margin-left: -250px;
+        margin-top: -150px;
+        box-shadow: 0 5px 8px 0 ;
+        border-radius: 5%;
+      }
+      .modalshow{
+        position: absolute;height: 40%;width: 100%;font-weight: 800;
+        text-align: center;padding: 55px 0;font-size: 28px;
+        color: #BF0603;
+      }
+      .modalbtn{
+        position: absolute;height: 20%;width: 100%;bottom: 0;
+        text-align: center;
+      }
+      .modalbtnclick{
+        cursor: pointer;border-radius: 5%;background-color: #BF0603;
+        color: #F6F1D1;font-weight: 800;padding:10px 15px;font-size:20px;
+        transition: 0.1s ease;
+      }
+      .modalbtnclick:hover{
+        padding: 10px 30px;font-size: 22px;transition: 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app_su">
+      <div class="Modal" v-if="showModal">
+        <div class="modalMessage">
+          <div class="modalshow">
+            {{modalMessage}}
+          </div>
+          <div class="modalbtn">
+            <button class="modalbtnclick" v-on:click="showModal=!showModal"> Okay</button>
+          </div>
+        </div>
+      </div>
+      <div id="particles-js">
+    <div class="head">
+      <div class="inside_head">
+        <span><a href="#">6Chan</a></span>
+        <span class="right_align"><a href="./Login.html">Sign In</a></span>
+      </div>
+    </div>              <!--THIS IS HEAD ONLY-->
+
+
+    <div class="main_area">           <!--THIS IS MAIN AREA ONLY-->
+      <div class="headings">
+        <p>create an account</p>
+      </div>
+      <div class="placeholder20"></div>
+      <div class="sign_in_box">
+        <form action="index.html" method="post">
+          <p class="error_display" v-if='error_display'>{{error}}</p>
+        <span>First Name: </span>
+        <input type="text" v-model='firstName' required>
+        <br/>
+        <div class="placeholder20"></div>
+        <span>Last Name: </span>
+        <input type="text" v-model='lastName' required>
+        <br/>
+        <div class="placeholder20"></div>
+        <span>Username: </span>
+        <input type="text" v-model='userName' required>
+        <br/>
+        <div class="placeholder20"></div>
+        <span>E-mail: </span>
+        <input type="text" v-model='email' required>
+        <br/>
+        <div class="placeholder20"></div>
+        <span>Password: </span>
+        <input type="password" v-model='password' required>
+        <div class="placeholder20"></div>
+        <span>Re-Password: </span>
+        <input type="password" v-model='re_password' required>
+        <div class="placeholder20"></div>
+        <span>Upload Picture: </span>
+        <input type="hidden" name="MAX_FILE_SIZE" value="3000000">
+        <input type="file" name="upload_pic" v-on:change='uploading($event)'>
+        <div class="placeholder20"></div>
+        <span>Gender: </span>
+        <input type="radio" value='Male' name='gender'  v-on:change="getGender($event)"><span>Male</span>
+        <input type="radio" value='Female'  name='gender'  v-on:change="getGender($event)"><span>Female</span>
+        <div class="placeholder20"></div>
+        <span>Date of Birth: </span>
+        <input type="date" v-model='birth'>
+        <div class="placeholder20"></div>
+
+
+        <div class="button_box">
+          <button type="button" name="button" class="signinbtn" v-on:click='checking'><a href=#>Sign Up</a></button>
+        </div>
+        <div class="placeholder20"></div>
+        <hr/>
+        <div class="placeholder20"></div>
+        <p>Already have an account then <a href="./Login.html">SIGN IN</a></p>
+
+        </form>
+      </div>
+
+    </div>
+    </div>
+
+
+
+
+    <div class="foot">
+      <p>This site was creted by Faizan Nehal, Ammara Riaz and Hamza Shahid</p>
+      <div class="foot_bot">
+        <a href="#">Terms & conditions</a> | <a href="#">Team</a> | <a href="#">
+        Policy</a> | <a href="#">Contact Us</a>
+
+      </div>             <!--THIS IS FOOTER ONLY-->
+    </div>
+  </div>
+
+  <script src="./../files/particles.js-master/particles.min.js"></script>
+  <script type="text/javascript">
+
+  particlesJS.load('particles-js','particles.json',function(){
+    console.log("particles.json loaded")
+  })
+
+  var vm=new Vue({
+    el: '#app_su',
+    data:{
+      firstName:"",
+      lastName:"",
+      userName:"",
+      email:"",
+      password:"",
+      re_password:"",
+      birth:"",
+      image:"",
+      gender:"",
+      imageUpload:false,
+      error_display:false,
+      error:'Please enter all the given information',
+      showModal:false,
+      modalMessage:''
+    },
+    computed:{
+
+    },
+    methods:{
+      checking: function(){
+
+        this.error_display=false
+        if (this.firstName==""||this.lastName==""||this.userName==""||this.email==""||
+      this.password==""||this.re_password==""||this.gender==""||this.birth=="") {
+        this.error_display=true
+        return
+          }
+          if(this.password!=this.re_password){
+            this.error='Password is not matching',
+            this.error_display=true
+            return
+          }
+          this.requesting();
+      },
+      getCookie:function(name){
+          var match = document.cookie.match(RegExp('(?:^|;\\s*)' + name + '=([^;]*)')); return match ? match[1] : null;
+      },
+/*      request:function(){
+        var self=this;
+        $.ajax({
+          url:'./../backend/signup.php',
+          method:'POST',
+          data:{
+            fname:self.firstName,
+            lname:self.lastName,
+            uname:self.userName,
+            mail:self.email,
+            password:self.password,
+            gender:self.gender,
+            dob:self.birth
+          }
+        })
+        .always(function(){
+          console.log("MESSAGE SENT")
+        })
+        .done(function(data){
+          self.error_display=true
+          self.error=data
+
+        })
+        .fail(function(data){
+          self.error_display=true
+          self.error=data.statusText
+
+        })
+      },*/
+      uploading:function(event){
+        this.image=event.target.files[0]
+        console.log("changing")
+
+      },
+      getGender:function(event){
+        this.gender=event.target.value
+
+        console.log(event)
+      },
+      requesting:function(){
+
+        if (this.image!="") {
+          this.imageUpload=true
+        }
+        if (this.imageUpload==true) {
+          const fd=new FormData()
+          fd.set('imageUpload',this.imageUpload)
+          fd.append('image',this.image)
+          fd.set('fname',this.firstName)
+          fd.set('lname',this.lastName)
+          fd.set('uname',this.userName)
+          fd.set('mail',this.email)
+          fd.set('password',this.password)
+          fd.set('gender',this.gender)
+          fd.set('dob',this.birth)
+
+
+
+          axios.post('./../backend/signup.php',fd,{
+            header:{
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then(function(response){
+            if(response.data.reply){
+              location.reload()
+            }
+          })
+          .catch(function(){
+            console.log("FAILED AXIOS")
+          })
+        }
+        else {
+          var self=this;
+          $.ajax({
+            url:'./../backend/signup.php',
+            method:'POST',
+            data:{
+              fname:self.firstName,
+              lname:self.lastName,
+              uname:self.userName,
+              mail:self.email,
+              password:self.password,
+              gender:self.gender,
+              dob:self.birth
+            }
+          })
+          .always(function(){
+            console.log("MESSAGE SENT")
+          })
+          .done(function(data){
+            if (JSON.parse(data).res) {
+
+            }
+            else {
+              self.error_display=true
+              self.error=JSON.parse(data).reply
+            }
+
+          })
+          .fail(function(data){
+            self.error_display=true
+            self.error=data.statusText
+
+          })
+        }
+        this.firstName=""
+        this.lastName=""
+        this.userName=""
+        this.email=""
+        this.password=""
+      }
+
+    }
+  })
+
+  </script>
+  </body>
+</html>
